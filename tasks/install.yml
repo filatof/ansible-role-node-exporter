@@ -5,18 +5,10 @@
     state: present
     system: true
 
-
-- name: Check if consul group exists
-  ansible.builtin.getent:
-    database: group
-    key: consul
-  register: consul_group
-
 - name: Create the node_exporter user
   ansible.builtin.user:
     name: "node_exporter"
-    groups: >-
-      node_exporter{% if 'consul' in consul_group.ansible_facts.getent_group %},consul{% endif %}
+    groups: "node_exporter"
     append: true
     shell: /usr/sbin/nologin
     system: true
